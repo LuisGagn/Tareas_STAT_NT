@@ -1,6 +1,6 @@
 ---
 title: "Tarea 1"
-author: "STAT NT"
+author: "STAT NT | Luis Gagñevin 5.153.261-6"
 date: "4/29/2021"
 output: pdf_document
 ---
