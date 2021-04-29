@@ -1,6 +1,6 @@
 ---
-title: "Tarea 1"
-author: "STAT NT | Luis Gagñevin 5.153.261-6"
+title: "Tarea 1 | STAT NT"
+author: "Luis Gagñevin 5.153.261-6"
 date: "4/29/2021"
 output: pdf_document
 ---
@@ -36,3 +36,58 @@ Y tiene Elementos clasificados solo como Integer
 
 ## Z es un vector del tipo character
 Aunque Z sea practicamente igual a y dentro de los (), el uso de paste concatena los vectores luego de convertirlos en texto, por lo que genera un vector con solo elementos del tipo Character
+
+
+1.1.2 ¿Cual es la diferencia entre c(4,3,2,1) y 4:1?
+
+Si bien su resultado se ve igual, la clasificacion de estos es distinta.
+Ya que 4:1 es tomado como una cadena entera, mientras que c(4,3,2,1) se toma como un vector numerico.
+
+
+
+## 1.2 Parte 2: factor
+
+Dado el siguiente factor x: 
+```{r}
+x <-
+factor(
+c(
+"alto",
+"bajo",
+"medio",
+"alto",
+"muy alto",
+"bajo",
+"medio",
+"alto",
+"ALTO",
+"MEDIO",
+"BAJO",
+"MUY ALTO",
+"QUE LOCO",
+"QUE LOCO",
+"QUE LOCO",
+"A",
+"B",
+"C",
+"GUAU",
+"GOL",
+"MUY BAJO",
+"MUY BAJO",
+"MUY ALTO"
+)
+)
+```
+
+1.2.1 Genera un neuvo factor (llamalo xx) transformando el objeto x previamente generado de forma que quede como sigue:
+
+[1] A B M A A B M A A M B A B B A
+Levels: B < M < A
+
+
+
+
+
+
+
+
