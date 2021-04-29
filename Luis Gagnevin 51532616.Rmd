@@ -5,26 +5,34 @@ date: "4/29/2021"
 output: pdf_document
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+# 1 Ejercicio 1
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## 1.1 Parte 1: Vectores
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+1.1.1 Dado los siguientes vectores, indica a que tipo coercionan
 
-```{r cars}
-summary(cars)
+```{r, echo=TRUE}
+w <- c(29, 1L, FALSE, "HOLA")
+x <- c("Celeste pelela!", 33, NA)
+y <- c(seq(3:25), 10L)
+z <- paste(seq(3:25), 10L)
 ```
+Las Coerciones ocurren del mas rigido al mas flexible (Logic -> Integer -> Numeric -> Character)
+Y en caso de combinaciones toma al mas flexible como su tipo, teniendo esto en cuenta:
 
-## Including Plots
+## W es un vector del tipo Character
+W Tiene Elementos clasificados como: Logic, Integer, Numeric y Character, por lo que tomara el mas flexible, osea Character.
 
-You can also embed plots, for example:
+## X es un vector del tipo Character
+X Tiene Elementos clasificados como: Logic, Numeric y Character, por lo que tomara el mas flexible, osea Character.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+## Y es un vector de ltipo Integer
+Y tiene Elementos clasificados solo como Integer
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Z es un vector del tipo character
+Aunque Z sea practicamente igual a y dentro de los (), el uso de paste concatena los vectores luego de convertirlos en texto, por lo que genera un vector con solo elementos del tipo Character
