@@ -84,10 +84,35 @@ c(
 [1] A B M A A B M A A M B A B B A
 Levels: B < M < A
 
+Para reordenar y que quede de la misma forma, tomare los niveles que me sirven dejando como NA las palabras que no contienen ni "Alto, Medio o Bajo".
 
+Luego cambiare cada nivel por "alto", "bajo" y "medio"
 
+Luego elimino los NA y cambio los niveles por "A, B y M" dejandolo casi listo
 
+Y para finalizar ordeno los niveles donde B sea el menor y A el mayor
 
+```{r, echo=TRUE}
+
+xx <- factor(x, levels= c("alto","ALTO", "bajo", "BAJO", "medio", 
+                          "MEDIO", "muy alto", "MUY ALTO", "MUY BAJO"))
+
+levels(xx)[levels(xx)=="ALTO"]<- "alto"
+levels(xx)[levels(xx)=="MUY ALTO"]<- "alto"
+levels(xx)[levels(xx)=="muy alto"]<- "alto"
+levels(xx)[levels(xx)=="BAJO"]<- "bajo"
+levels(xx)[levels(xx)=="MUY BAJO"]<- "bajo"
+levels(xx)[levels(xx)=="muy bajo"]<- "bajo"
+levels(xx)[levels(xx)=="MEDIO"]<- "medio"
+
+xx<-xx[!is.na(xx)]
+levels(xx)[levels(xx)=="alto"]<- "A"
+levels(xx)[levels(xx)=="bajo"]<- "B"
+levels(xx)[levels(xx)=="medio"]<- "M"
+
+xx<- ordered(xx, levels=c("B","M","A"))
+print(xx)
+```
 
 
 
