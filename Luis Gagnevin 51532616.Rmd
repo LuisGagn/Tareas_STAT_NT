@@ -112,7 +112,23 @@ levels(xx)[levels(xx)=="medio"]<- "M"
 
 xx<- ordered(xx, levels=c("B","M","A"))
 print(xx)
+
 ```
 
+
+1.2.2. Generá el siguiente data.frame()
+Para ello usá el vector xx que obtuviste en la parte anterior.
+
+```{r}
+
+x2<-unique(x)
+df<- data.frame(x2[1:15])
+names(df)[1]<- "levels"
+
+df2<-data.frame(levels(x))
+df2$value<- c(1:15)
+names(df2)[1]<- "levels"
+df2[order(match(df2$levels, df$levels)),]
+```
 
 
