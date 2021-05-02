@@ -119,7 +119,10 @@ print(xx)
 1.2.2. Generá el siguiente data.frame()
 Para ello usá el vector xx que obtuviste en la parte anterior.
 
-```{r}
+
+Para generar el data.frame() tome los valores unicos de x en una nueva variable, genere un df con los valores de la nueva variable y luego en una nueva df tomamos los niveles de x y los ordenamos haciendo match a los valores de las variables "Levels" para luego ordenarlo en un solo df, dejandolo de minusculas a mayusculas.
+
+```{r, echo=TRUE}
 
 x2<-unique(x)
 df<- data.frame(x2[1:15])
@@ -128,7 +131,94 @@ names(df)[1]<- "levels"
 df2<-data.frame(levels(x))
 df2$value<- c(1:15)
 names(df2)[1]<- "levels"
-df2[order(match(df2$levels, df$levels)),]
+df2<-df2[order(match(df2$levels, df$levels)),]
+df$value<- df2[,2]
+df
 ```
+
+
+## 1.3 Parte 2: Listas
+
+1.3.1 Genera una lista que se llame lista_t1 que contenga:
+
+- Un vector numérico de longitud 4 (h).
+
+- Una matriz de dimensión 4*3 (u).
+
+- La palabra “chau” (palabra).
+
+- Una secuencia diaria de fechas (clase Date) desde 2021/01/01 hasta 2021/12/30 (fecha)
+
+```{r}
+
+h<- c(1,2,3,4)
+u<- matrix(1:12, nrow=4)
+palabra<- "chau"
+fecha <- seq(as.Date('2021-1-1'), as.Date('2021-12-30'), by='day')
+lista_t1<- list(h,u,palabra,fecha)
+
+```
+
+1.3.2 ¿Cual es el tercer elemento de la primera fila de la matriz m? ¿Que columna lo contiene?
+
+```{r, echo = TRUE}
+lista_t1[[2]][3,1]
+```
+
+1.3.3 ¿Cual es la diferencia entre hacer lista_t1[[2]][]<-0 y lista_t1[[2]] <- 0?
+
+Al realizar lista_t1[[2]][] <-0 quedan todos los valores de la matriz iguales a 0
+```{r, echo=TRUE}
+```
+
+
+```{r, echo=TRUE}
+lista_t1[[2]][]<-0
+```
+`r (lista_t1[[2]])`
+
+Mientras que al realizar lista_t1[[2]] <- 0, cambia la matriz por el valor 0.
+```{r, echo=TRUE}
+lista_t1[[2]]<-0
+```
+`r (lista_t1[[2]])`
+
+1.3.4 Iteracion
+
+Iterá sobre el objeto lista_t1 y obtené la clase de cada elemento teniendo el cuenta que si la longitud de
+la clase del elemento es mayor a uno nos quedamos con el último elemento. Es decir, si class(x) es igual
+a c("matrix", .array") el resultado debería ser “array”. A su vez retorná el resultado como clase list y
+como character
+
+```{r, echo=FALSE}
+lista_t1<- list(h,u,palabra,fecha)
+```
+
+Para lograr esto, lo que realize es crear una funcion donde utiliza un for() con la variable i en la que mira cuales son las clases de cada parte de la lista y luego cuenta sus elementos, si estos son iguales a 1, coloca el valor correcto, si estos son mayores a 1 coloca el ultimo tipo de clase
+
+```{r, echo=TRUE}
+clasificaciones <- function(lista){
+  clases <- list()
+for (i in 1:length(lista)) {
+  cls<- class(lista[[i]])
+  if (length(cls)==1) {
+    clases[[i]]<- as.character(cls)
+  }else{
+    clases[[i]]<- as.character(cls[length(cls)])
+  }
+}
+print(clases)  
+}
+
+
+clasificaciones(lista_t1)
+```
+
+1.3.5 Iteracion (2)
+
+Utilizando las últimas 10 observaciones de el elemento “fecha” del objeto “lista_t1” escriba para cada fecha
+“La fecha en este momento es . . . .” donde “. . . ” debe contener la fecha para valor de lista$fecha. Ejemplo: “La
+fecha en este momento es ‘2021-04-28’ ”. Hacelo de al menos 2 formas y que una de ellas sea utilizando un for.
+Obs: En este ejercicio NO imprimas los resultados.
 
 
