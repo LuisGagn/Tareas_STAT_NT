@@ -115,7 +115,7 @@ xx<- ordered(xx, levels=c("B","M","A"))
 `r print(xx)`
 
 ### 1.2.2. Generá el siguiente data.frame()
-Para ello usá el vector xx que obtuviste en la parte anterior.
+#### Para ello usá el vector xx que obtuviste en la parte anterior.
 
 
 Para generar el data.frame() tome los valores unicos de x en una nueva variable, genere un df con los valores de la nueva variable y luego en una nueva df tomamos los niveles de x y los ordenamos haciendo match a los valores de las variables "Levels" para luego ordenarlo en un solo df, dejandolo de minusculas a mayusculas.
@@ -182,7 +182,7 @@ lista_t1[[2]]<-0
 
 ### 1.3.4 Iteracion
 
-Iterá sobre el objeto lista_t1 y obtené la clase de cada elemento teniendo el cuenta que si la longitud de
+#### Iterá sobre el objeto lista_t1 y obtené la clase de cada elemento teniendo el cuenta que si la longitud de
 la clase del elemento es mayor a uno nos quedamos con el último elemento. Es decir, si class(x) es igual
 a c("matrix", .array") el resultado debería ser “array”. A su vez retorná el resultado como clase list y
 como character
@@ -215,7 +215,7 @@ clasificaciones(lista_t1)
 
 ### 1.3.5 Iteracion (2)
 
-Utilizando las últimas 10 observaciones de el elemento “fecha” del objeto “lista_t1” escriba para cada fecha
+#### Utilizando las últimas 10 observaciones de el elemento “fecha” del objeto “lista_t1” escriba para cada fecha
 “La fecha en este momento es . . . .” donde “. . . ” debe contener la fecha para valor de lista$fecha. Ejemplo: “La
 fecha en este momento es ‘2021-04-28’ ”. Hacelo de al menos 2 formas y que una de ellas sea utilizando un for.
 Obs: En este ejercicio NO imprimas los resultados.
@@ -324,6 +324,50 @@ renombre <- function(ary){
 ```{r, echo=FALSE}
 renombre(c)
 ```
+
+
+# Ejercicio 2
+
+## 2.1 Parte 1: ifelse()
+
+### 2.1.1 ¿Que hace la funcion ifelse() del paquete base de R?
+
+La funcion ifelse() funciona como un conjunto de if y else, utiliza tres valores e itera sobre todo el vector o matriz dado de ser asi: 
+
+* El primero es un test logico, por ejemplo si a>1. 
++ El segundo es el resultado en caso de que el objeto logico sea verdadero
++ El tercero es el resultado en caso de que el objeto logico sea falso
+
+
+### 2.1.2 Dado el vector x tal que: x <- c(8, 6, 22, 1, 0, -2, -45), utilizando la funcion ifelse() del paquete base, reemplaza todos los elementos mayores estrictos a 0 por 1, y todos los elementos menores o iguales a 0 por 0.
+
+```{r, echo=TRUE}
+x<-c(8, 6, 22, 1, 0, -2, -45)
+x<-ifelse(x>0, x<-1, x<- 0)
+```
+
+### 2.1.3 ¿Porque no fue necesario usar un loop?
+No fue necesario ya que el funcionamiento de ifelse itera sobre el vector
+
+## 2.2 Parte 2: while() loops
+
+### 2.2.1 ¿Que es un while loop y como es la estructura para generar uno en R? ¿En que se diferencia de un for loop?
+
+Un while loop es una herramienta de iteracion para realizar una accion de manera repetida segun mientras se mantenga un objeto logico verdadero
+
+Para generar un while loop es necesario completar 3 partes:
+
+* Un valor que sera testeado para ver si es verdadero o no. Ejemplo: i=1 // i<20
++ Una proceso que se realizara mientras que el valor sea verdadero. 
++ Algo que haga cambiar el valor para que pueda romperse y finalizar la iteracion. Ejemplo: i=i+1
+
+Se diferencia de un for loop ya que el while itera durante todo momento que el valor logico sea verdadero, mientras que un for loop itera mientras que la variable dada se encuentre dentro de los valores del vector dado. Ejemplo: i in 1:50
+
+### 2.2.2 Dada la estructura siguiente, ¿ Cual es el valor del objeto suma? Responda sin realizar el calculo en R
+
+
+
+
 
 
 
