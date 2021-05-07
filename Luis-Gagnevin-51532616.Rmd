@@ -149,7 +149,7 @@ print(df)
 
 - Una secuencia diaria de fechas (clase Date) desde 2021/01/01 hasta 2021/12/30 (fecha)
 
-```{r}
+```{r, echo=TRUE}
 
 h<- c(1,2,3,4)
 u<- matrix(1:12, nrow=4)
@@ -514,6 +514,85 @@ Por lo que order(order(x)) va a tomar las posiciones de los vectores de x ordena
 
 
 
+
+
+
+# Ejercicio 3
+
+## 3.1 Extra 1
+
+### 3.1.1 ¿Que funcion del paquete base es la que tiene mayor cantidad de argumentos?
+
+
+```{r, eval=FALSE, echo=TRUE}
+funciones <- mget(ls("package:base", all = TRUE), inherits = TRUE)
+funs<- Filter(is.function, funciones)
+
+cantargs <- sapply(funs, function(x) length(formals(x)))
+cantargs[which.max(cantargs)]
+```
+
+La funcion base con mas argumentos es la funcion 1044 en la lista, siendo esta la funcion scan() con 22 argumentos.
+
+## 3.2 Extra 2
+
+#### Dado el siguiente vector: 
+```{r, echo=TRUE}
+valores <- 1:20
+```
+
+### 3.2.1 Obtene la suma acumulada, es decir 1, 3, 6, 10 de dos formas y que una de ellas sea utilizando al funcion Reduce
+
+La primera forma es con la funcion reduce, donde con la funcion sum, suma de forma acumulada todos los valores
+```{r,eval=FALSE ,echo=TRUE}
+Reduce(sum,valores, accumulate=TRUE)
+```
+La segunda forma es iterando con un for, donde suma los valores y separa el 1.
+```{r, eval=FALSE, echo=TRUE}
+sumacum<- c()
+for (i in valores) {
+  if (i==1) {
+    sumacum<-c(valores[1])
+  }else{
+    sumacum<- c(sumacum,sumacum[i-1]+valores[i])}
+}
+```
+
+#### Ambas formas nos daran:
+
+`r Reduce(sum,valores, accumulate=TRUE)`
+
+## 3.3 Extra 3
+
+### 3.3.1 Escribi una funcion que reciba como input un vector numerico y devuelva los indices donde un numero se repite almenos k veces. Los parametros deben ser el vector, el numero a buscar y la cantidad minima de veces que se debe repetir. Si el numero no se encuentra, retorne un warning y el valor NULL
+
+
+```{r}
+aparece <- function(v,n,r){
+  mult<- 3*3
+  ap<-c()
+  n<-3
+  r<-3
+  v<-vectoraz
+  for (i in 1:14) {
+    if((v[i]==n) && (sum(v[i:i+r-1])==mult) ){
+   
+        ap<-c(ap,v[i])
+
+    }
+    
+  
+  }
+  
+  sum(v[4]:v[4+r-1])
+ return(ap) 
+}
+sum(v[4:6])
+aparece(vectoraz,3,3)
+vectoraz[2]
+
+TERMINARLO --> EN TESTEO 
+```
 
 
 
