@@ -575,12 +575,15 @@ aparece <- function(v,n,r){
         ap<-c(ap,i)
     }
   }
+  
+  if(length(ap)==0){
+    print(paste("WARNING",ap<-c())) }
  return(ap) 
 }
 
 vector<- c(3, 1, 2, 3, 3, 3, 5, 5, 3, 3, 0, 0, 9, 3, 3, 3)
 
-aparece(vector,3,3)
+aparece(vector,4,3)
 
 ```
 
