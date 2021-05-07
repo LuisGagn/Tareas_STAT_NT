@@ -575,7 +575,7 @@ for (i in valores) {
 
 * Para poder realizar dicho proceso, necesitamos definir la funcion.
 + Luego iteramosen un for que va de 1 al largo - la cantidad de repeticiones+1
-+ Alli un if vera si existe dicha repeticion en algun punto del vector y guarda el indice.
++ Alli un if vera si existe dicha repeticion en algun punto del vector y guarda el indice .
 + Luego tenemos un if que ve si el vector de indices esta vacio, de estarlo envia un warning null
 ```{r, echo=TRUE}
 aparece <- function(v,n,r){
