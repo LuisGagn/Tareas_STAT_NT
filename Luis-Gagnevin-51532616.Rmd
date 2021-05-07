@@ -112,10 +112,12 @@ levels(xx)[levels(xx)=="medio"]<- "M"
 
 xx<- ordered(xx, levels=c("B","M","A"))
 ```
-`r print(xx)`
+```{r, echo=FALSE}
+xx
+```
 
 ### 1.2.2. Generá el siguiente data.frame()
-#### Para ello usá el vector xx que obtuviste en la parte anterior.
+> Para ello usá el vector xx que obtuviste en la parte anterior.
 
 
 Para generar el data.frame() tome los valores unicos de x en una nueva variable, genere un df con los valores de la nueva variable y luego en una nueva df tomamos los niveles de x y los ordenamos haciendo match a los valores de las variables "Levels" para luego ordenarlo en un solo df, dejandolo de minusculas a mayusculas.
@@ -161,6 +163,8 @@ lista_t1<- list(h,u,palabra,fecha)
 
 ### 1.3.2 ¿Cual es el tercer elemento de la primera fila de la matriz m? ¿Que columna lo contiene?
 
+Para realizar eso haremos lo siguiente:
+
 ```{r, echo = TRUE}
 lista_t1[[2]][3,1]
 ```
@@ -182,7 +186,7 @@ lista_t1[[2]]<-0
 
 ### 1.3.4 Iteracion
 
-#### Iterá sobre el objeto lista_t1 y obtené la clase de cada elemento teniendo el cuenta que si la longitud de
+> Iterá sobre el objeto lista_t1 y obtené la clase de cada elemento teniendo el cuenta que si la longitud de
 la clase del elemento es mayor a uno nos quedamos con el último elemento. Es decir, si class(x) es igual
 a c("matrix", .array") el resultado debería ser “array”. A su vez retorná el resultado como clase list y
 como character
@@ -215,7 +219,7 @@ clasificaciones(lista_t1)
 
 ### 1.3.5 Iteracion (2)
 
-#### Utilizando las últimas 10 observaciones de el elemento “fecha” del objeto “lista_t1” escriba para cada fecha
+> Utilizando las últimas 10 observaciones de el elemento “fecha” del objeto “lista_t1” escriba para cada fecha
 “La fecha en este momento es . . . .” donde “. . . ” debe contener la fecha para valor de lista$fecha. Ejemplo: “La
 fecha en este momento es ‘2021-04-28’ ”. Hacelo de al menos 2 formas y que una de ellas sea utilizando un for.
 Obs: En este ejercicio NO imprimas los resultados.
@@ -276,7 +280,8 @@ D<- t(A)%*%B
 D[c(1,3),2]
 ```
 
-### 1.4.4 Usa las matrices A y B de forma tal de lograr una matriz C de dimension 4x5. Con la funcion Attributes inspecciona los atributos de C. Posteriormente renombra filas y columnas como "fila_1", "fila_2" ... "columna_1", "columna_2", vuelve a inspeccionar los atributos. Finalmente, generaliza y escribi una funcion que reciba como argumento una matriz y devuelva como resultado la misma matriz con columnas y filas con nombres.
+### 1.4.4 
+> Usa las matrices A y B de forma tal de lograr una matriz C de dimension 4x5. Con la funcion Attributes inspecciona los atributos de C. Posteriormente renombra filas y columnas como "fila_1", "fila_2" ... "columna_1", "columna_2", vuelve a inspeccionar los atributos. Finalmente, generaliza y escribi una funcion que reciba como argumento una matriz y devuelva como resultado la misma matriz con columnas y filas con nombres.
 
 Utilizamos la funcion cbind() para combinar ambas matrices y veo con el atributo que solo tiene el $dim
 ```{r, echo=TRUE}
@@ -392,7 +397,8 @@ Por lo que se seguira el siguiente proceso
 Bien, podemos ver como el while funciona perfectamente hasta i=3, sucede que i=4 e i=5 valen NA y al sumar un numero y un NA nos dara NA como suma ya que estas sumando un numero y un objeto inexistente.
 
 
-### 2.2.3 Modifica la estructura anterior para que suma valga 0, si el vector tiene largo menor a 5 o que sume los primeros 5 elementos si el vector tiene largo mayor a 5. Apartir de ella genera una funcion que se llame sumar_si y verifica que funcione utilizando los vectores y<-c(1:3), z<-(1:15).
+### 2.2.3 
+> Modifica la estructura anterior para que suma valga 0, si el vector tiene largo menor a 5 o que sume los primeros 5 elementos si el vector tiene largo mayor a 5. Apartir de ella genera una funcion que se llame sumar_si y verifica que funcione utilizando los vectores y<-c(1:3), z<-(1:15).
 
 
 Para que funcione, colocamos un if dentro del while que mida el vector y si es menor a 5 da 0.
@@ -564,10 +570,14 @@ for (i in valores) {
 
 ## 3.3 Extra 3
 
-### 3.3.1 Escribi una funcion que reciba como input un vector numerico y devuelva los indices donde un numero se repite almenos k veces. Los parametros deben ser el vector, el numero a buscar y la cantidad minima de veces que se debe repetir. Si el numero no se encuentra, retorne un warning y el valor NULL
+### 3.3.1 
+> Escribi una funcion que reciba como input un vector numerico y devuelva los indices donde un numero se repite almenos k veces. Los parametros deben ser el vector, el numero a buscar y la cantidad minima de veces que se debe repetir. Si el numero no se encuentra, retorne un warning y el valor NULL
 
-
-```{r}
+* Para poder realizar dicho proceso, necesitamos definir la funcion.
++ Luego iteramosen un for que va de 1 al largo - la cantidad de repeticiones+1
++ Alli un if vera si existe dicha repeticion en algun punto del vector y guarda el indice
++ Luego tenemos un if que ve si el vector de indices esta vacio, de estarlo envia un warning null
+```{r, echo=TRUE}
 aparece <- function(v,n,r){
   ap<-c()
   for (i in 1:length(v)-r+1) {
@@ -580,13 +590,33 @@ aparece <- function(v,n,r){
     print(paste("WARNING",ap<-c())) }
  return(ap) 
 }
-
-vector<- c(3, 1, 2, 3, 3, 3, 5, 5, 3, 3, 0, 0, 9, 3, 3, 3)
-
-aparece(vector,4,3)
-
 ```
 
+
+#### Ejemplo utilizando c(3, 1, 2, 3, 3, 3, 5, 5, 3, 3, 0, 0, 9, 3, 3, 3), con 3 repeticioens del numero 3
+
+```{r, echo=TRUE}
+vec<- c(3, 1, 2, 3, 3, 3, 5, 5, 3, 3, 0, 0, 9, 3, 3, 3)
+aparece(vec,3,3)
+```
+
+## 3.4 Extra 4
+
+Dado el siguiente factor
+```{r}
+f1 <- factor(letters)
+```
+
+### 3.4.1 ¿Que hace el siguiente codigo? Explica las diferencias o semejanzas
+```{r}
+levels(f1) <- rev(levels(f1))
+f2 <- rev(factor(letters))
+f3 <- factor(letters, levels = rev(letters))
+```
+
+* 1. La primera parte de la funcion voltea la funcion f1 entera
++ 2. La segunda parte de la funcion voltea el factor entero sin voltear los niveles
++ 3. La tercera parte de la funcion genera un factor con los niveles volteados
 
 
 
