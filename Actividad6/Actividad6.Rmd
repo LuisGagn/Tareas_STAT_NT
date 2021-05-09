@@ -1,0 +1,42 @@
+---
+title: "Actividad6"
+author: "Luis Gagñevin"
+date: "5/9/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Ejercicio 1
+
+> Con los datos mpg que se encuentran disponibles en ggplot2 hacer un grafico con las siguientes caracteriscas:
+* Un diagrama de dispercion de hwy vs cty
++ Incluir usando labs en el nombre de los ejes, titulo informativo y nombre de la leyenda
+
+```{r, echo=TRUE}
+library(ggplot2)
+ggplot(mpg, aes(hwy,cty))+geom_point() +
+  labs(title="Comparativa HWY y CTY")
+```
+
+# Ejercicio 2
+
+> En el grafico anterior hay un problema sobre polteo, esto es hay mas de una observacion en algunas combinaciones de ctw y hwy
+1. Hacer el grafico anterior y usar transparencia (alpha) para ver el problema sobre ploteo
+2. Hacer el grafico anterior y usa geom_jitter() para ver el problema de sobre ploteo
+3. ¿Que opcion te resulta mas apropieada y porque?
+
+```{r, echo=TRUE}
+library(ggplot2)
+ggplot(mpg, aes(hwy,cty))+geom_point(alpha=0.5, colour="blue") +
+  labs(title="Comparativa HWY y CTY")
+```
+
+```{r, echo=TRUE}
+ggplot(mpg, aes(hwy,cty))+geom_point()+geom_jitter() +
+  labs(title="Comparativa HWY y CTY")
+```
+
