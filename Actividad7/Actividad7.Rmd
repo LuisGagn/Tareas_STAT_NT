@@ -1,0 +1,100 @@
+---
+title: "Actividad 7"
+author: "Luis Gagñevin"
+date: "5/10/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Esta actividad esta hecha utilizando los datos de propinas tomado de EVA por lo que la guardaremos en una variable de la siguiente manera:
+```{r, echo=TRUE, message=FALSE}
+library(tidyverse)
+propinas <- read_csv("propina.csv")
+```
+# Ejercicio 1
+
+> 1. Hacer un grafico de dispersion: componentes esteticos x total, y propina, color fuma
+2. Cambia el nombre de los ejes: x="Total gastado en dolares", y="Propina en dolares"
+3. Cambia el nombre de la leyenda de color a "Fumador"
+4. Cambia la posicion de la leyenda en la parte inferior del grafico usando theme
+5. Cambiar la paleta de colores a Dark2 usando scale_color_brewer()
+
+```{r, echo=FALSE}
+library(ggplot2)
+```
+
+### 1, 2 y 3
+Hacemos el grafico con las variables predichas, usando un coloreado segun si fuma o no y cambiamos los nombres de los ejes y la leyenda
+```{r, echo=TRUE}
+ggplot(propinas, aes(total,propina,colour=fuma))+geom_point()+
+  labs(title="Componentes Esteticos",
+       x="Total gastado en dolares",
+       y="Propina en dolares",
+       colour="Fumador")
+```
+
+### 4 y 5
+Aqui movemos la leyenda abajo con theme() y legend.position = "bottom", luego cambiamos la paleta de colores
+```{r, echo=TRUE}
+ggplot(propinas, aes(total,propina,colour=fuma))+geom_point()+
+  labs(title="Componentes Esteticos",
+       x="Total gastado en dolares",
+       y="Propina en dolares",
+       colour="Fumador")+
+  theme(legend.position = "bottom")+
+  scale_color_brewer(palette="Dark2")
+```
+
+
+# Ejercicio 2
+
+> 1. Incluir un suavizado lineal usando geom_smooth()
+2. Cambiar el color de la linea a negro
+
+### 1 y 2
+Realizamos el agregado de un suavizado lineal con geom_smooth() con color negro
+```{r, echo=TRUE}
+ggplot(propinas, aes(total,propina,colour=fuma))+geom_point()+
+  labs(title="Componentes Esteticos",
+       x="Total gastado en dolares",
+       y="Propina en dolares",
+       colour="Fumador")+
+  theme(legend.position = "bottom")+
+  scale_color_brewer(palette="Dark2")+ 
+  geom_smooth(colour="black")
+```
+
+# Ejercicio 3
+
+> 1. Hacer un grafico de barras para la variable dia usando geom_bar()
+2. Colorear por dia de la semana las barras usar el elemento estetico fill
+3. Ordena los dias segun frecuencia
+4. Rota el grafico usando coord_flip()
+
+### 1 y 2
+Utilizamos un grafico de barras para ver la frecuencia de dias.
+```{r, echo=TRUE}
+ggplot(propinas, aes(dia, fill=dia))+geom_bar()
+```
+
+### 3
+Cambiamos la x por fct_infreq(dia) para odernar las barras de mayor a menor
+```{r, echo=TRUE}
+library(forcats)
+
+ggplot(propinas, aes(x= fct_infreq(dia), fill=dia))+geom_bar()
+```
+### 4 
+Rotamos el grafico simplemente agregando coord_flip()
+```{r, echo=TRUE}
+library(forcats)
+
+ggplot(propinas, aes(x= fct_infreq(dia), fill=dia))+geom_bar()+coord_flip()
+```
+
+
+
+
