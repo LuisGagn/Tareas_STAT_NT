@@ -1,0 +1,23 @@
+---
+title: "Actividad 8"
+author: "Luis Gagñevin"
+date: "5/13/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ejercicio 1
+
+> Cargar la libreria tidyverse y con los datos mpg usar las funciones que vimos de dplyr para transformar los datos de la siguiente forma
+
+```{r, message=FALSE,echo=TRUE}
+library(tidyverse)
+data(mpg)
+```
+
+
+### 1. Selecciona el conjunto de autos del 2008 que tienen hwy mayor a 31. ¿Cuantos autos son?
+
