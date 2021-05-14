@@ -21,3 +21,46 @@ data(mpg)
 
 ### 1. Selecciona el conjunto de autos del 2008 que tienen hwy mayor a 31. ¿Cuantos autos son?
 
+```{r, echo=TRUE}
+filter(mpg, year==2008 & hwy>31)
+```
+
+En total son 6 vehiculos del 2008 con un hwy mayor a 31.
+
+### 2. Seleccionar el conjunto de autos que tienen cty igual a 9 o hwy mayor a 90, ¿Cuantos autos son?
+
+```{r, echo=TRUE}
+filter(mpg, cty==9 | hwy>90)
+```
+Son en total 5 vehiculos con cty de 9 o hwy mayor a 90
+
+### 3. Selecciona la variable displ y hwy
+
+```{r, echo=TRUE}
+select(mpg, displ,hwy)
+```
+
+### 4. Selecciona desde la variable trans hasta la variable hwy
+
+```{r, echo=TRUE}
+select(mpg, trans:hwy)
+```
+
+
+
+### 5. Produce un dataframe: marca, modelo, año, cantidad de cilindros y rendimiento en ciudad. Unicamente para los autos Toyota, Camry
+
+```{r, echo=TRUE}
+select(filter(mpg, manufacturer=="toyota" & model=="camry"), 
+       manufacturer,model,year,cyl,cty)
+```
+
+
+### 6. Calcula el rendimiento promedio en ciudad para cada marca
+
+
+```{r}
+a<-mpg %>% group_by(manufacturer)
+```
+
+
