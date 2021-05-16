@@ -22,28 +22,30 @@ x <- c("Celeste pelela!", 33, NA)
 y <- c(seq(3:25), 10L)
 z <- paste(seq(3:25), 10L)
 ```
-Las Coerciones ocurren del mas rigido al mas flexible (Logic -> Integer -> Numeric -> Character)
+
+Las coerciones ocurren del mas rígido al mas flexible (Logic -> Integer -> Numeric -> Character)
 Y en caso de combinaciones toma al mas flexible como su tipo, teniendo esto en cuenta:
 
-## W es un vector del tipo Character
+- W es un vector del tipo Character
 W Tiene Elementos clasificados como: Logic, Integer, Numeric y Character, por lo que tomara el mas flexible, osea Character.
 
-## X es un vector del tipo Character
+- X es un vector del tipo Character
 X Tiene Elementos clasificados como: Logic, Numeric y Character, por lo que tomara el mas flexible, osea Character.
 
-## Y es un vector de ltipo Integer
+- Y es un vector de ltipo Integer
 Y tiene Elementos clasificados solo como Integer
 
-## Z es un vector del tipo character
+- Z es un vector del tipo character
 Aunque Z sea practicamente igual a y dentro de los (), el uso de paste concatena los vectores luego de convertirlos en texto, por lo que genera un vector con solo elementos del tipo Character
 
+\m{Correcto}
 
 ### 1.1.2 ¿Cual es la diferencia entre c(4,3,2,1) y 4:1?
 
 Si bien su resultado se ve igual, la clasificacion de estos es distinta.
 Ya que 4:1 es tomado como una cadena entera, mientras que c(4,3,2,1) se toma como un vector numerico.
 
-
+\m{Correcto}
 
 ## 1.2 Parte 2: factor
 
@@ -112,13 +114,15 @@ levels(xx)[levels(xx)=="medio"]<- "M"
 
 xx<- ordered(xx, levels=c("B","M","A"))
 ```
+
 ```{r, echo=FALSE}
 xx
 ```
 
+\m{Correcto resultado pero revisar la solución para ahorrar lineas de códigos.}
+
 ### 1.2.2. Generá el siguiente data.frame()
 > Para ello usá el vector xx que obtuviste en la parte anterior.
-
 
 Para generar el data.frame() tome los valores unicos de x en una nueva variable, genere un df con los valores de la nueva variable y luego en una nueva df tomamos los niveles de x y los ordenamos haciendo match a los valores de las variables "Levels" para luego ordenarlo en un solo df, dejandolo de minusculas a mayusculas.
 
@@ -134,10 +138,12 @@ names(df2)[1]<- "levels"
 df2<-df2[order(match(df2$levels, df$levels)),]
 df$value<- df2[,2]
 ```
+
 ```{r, echo=FALSE}
 print(df)
 ```
 
+\m{No se llega al resultado deseado en este punto pero se observa un buen manejo de funciones e incluso el uso de match una función MUY útil para programar.}
 
 ## 1.3 Parte 2: Listas
 
@@ -184,12 +190,10 @@ lista_t1[[2]]<-0
 ```
 `r (lista_t1[[2]])`
 
-### 1.3.4 Iteracion
+\m{Excelente}
 
-> Iterá sobre el objeto lista_t1 y obtené la clase de cada elemento teniendo el cuenta que si la longitud de
-la clase del elemento es mayor a uno nos quedamos con el último elemento. Es decir, si class(x) es igual
-a c("matrix", .array") el resultado debería ser “array”. A su vez retorná el resultado como clase list y
-como character
+### 1.3.4 Iteracion
+> Iterá sobre el objeto lista_t1 y obtené la clase de cada elemento teniendo el cuenta que si la longitud de la clase del elemento es mayor a uno nos quedamos con el último elemento. Es decir, si class(x) es igual a c("matrix", .array") el resultado debería ser “array”. A su vez retorná el resultado como clase list y como character
 
 ```{r, echo=FALSE}
 lista_t1<- list(h,u,palabra,fecha)
@@ -198,34 +202,32 @@ lista_t1<- list(h,u,palabra,fecha)
 Para lograr esto, lo que realize es crear una funcion donde utiliza un for() con la variable i en la que mira cuales son las clases de cada parte de la lista y luego cuenta sus elementos, si estos son iguales a 1, coloca el valor correcto, si estos son mayores a 1 coloca el ultimo tipo de clase
 
 ```{r, echo=TRUE}
-clasificaciones <- function(lista){
+clasificaciones <- function(lista) {
   clases <- list()
-for (i in 1:length(lista)) {
-  cls<- class(lista[[i]])
-  if (length(cls)==1) {
-    clases[[i]]<- as.character(cls)
-  }else{
-    clases[[i]]<- as.character(cls[length(cls)])
+  for (i in 1:length(lista)) {
+    cls <- class(lista[[i]])
+    if (length(cls) == 1) {
+      clases[[i]] <- as.character(cls)
+    } else{
+      clases[[i]] <- as.character(cls[length(cls)])
+    }
   }
+  print(clases)
 }
-print(clases)  
-}
-```
-```{r, echo=TRUE}
+
 clasificaciones(lista_t1)
 ```
 
+\m{Excelente!!}
 
 
 ### 1.3.5 Iteracion (2)
-
-> Utilizando las últimas 10 observaciones de el elemento “fecha” del objeto “lista_t1” escriba para cada fecha
-“La fecha en este momento es . . . .” donde “. . . ” debe contener la fecha para valor de lista$fecha. Ejemplo: “La
-fecha en este momento es ‘2021-04-28’ ”. Hacelo de al menos 2 formas y que una de ellas sea utilizando un for.
-Obs: En este ejercicio NO imprimas los resultados.
+> Utilizando las últimas 10 observaciones de el elemento “fecha” del objeto “lista_t1” escriba para cada fecha “La fecha en este momento es . . . .” donde “. . . ” debe contener la fecha para valor de lista$fecha. Ejemplo: “La fecha en este momento es ‘2021-04-28’ ”. Hacelo de al menos 2 formas y que una de ellas sea utilizando un for. Obs: En este ejercicio NO imprimas los resultados.
 
 ## Forma 1)
+
 En esta forma utilizamos una funcion del tipo for() donde toma los valores de un data.frame con 10 fechas y los acomoda en una oracion
+
 ```{r, echo=TRUE, eval=FALSE}
 lista <- data.frame(tail(lista_t1[[4]], 10))
 names(lista)[1] <- "fecha"
@@ -235,10 +237,12 @@ for (i in 1:10) {
 }
 
 ```
-
+\m{Muy bien!! No es necesario convertirlo a data.frame el output de tail basta y sobra.}
 
 ## Forma 2)
+
 En esta forma utilizamos una funcion del tipo while donde toma los valores de un data.frame con 10 fechas y los acomoda en una oracion
+
 ```{r, echo=TRUE, eval=FALSE}
 lista <- data.frame(tail(lista_t1[[4]], 10))
 names(lista)[1] <- "fecha"
@@ -249,28 +253,25 @@ while (i <= 10) {
   i=i+1
 }
 ```
-
-
+\m{Muy bien!}
 
 ## 1.4 Parte 3: Matrices
 
 ### 1.4.1  Genera una matriz A de dimension 4x3 y una matriz B de dimension 4x2 con numeros aleatorios usando alguna funcion predefinida en R
 
-
 Elegimos los valores aleatorios utilizando la funcion sample()
-```{r, echo=TRUE}
 
+```{r, echo=TRUE}
 A<- matrix(sample(1:100,12), ncol=3)
 B<- matrix(sample(1:100,8), ncol=2)
-
 ```
+
+\m{Correcto. Cuando se usa sample para los resultados sean reproducibles hay que fijar una semilla con set.seed}
 
 ### 1.4.2 Calcula el producto elemento a elemento de la primera columna de la matriz A por la ultima columna de la matriz B
 
 ```{r, echo=TRUE}
-
 A[,1]*B[,2]
-
 ```
 ### 1.4.3 Calcula el producto matricial entre D=AT B luego selecciona los elementos de la primera y tercera fila de la segunda columna (en un paso)
 
@@ -279,25 +280,30 @@ Para seleccionar ambos valores con un solo paso utilizamos un vector
 D<- t(A)%*%B
 D[c(1,3),2]
 ```
+\m{Correcto}
 
 ### 1.4.4 
 > Usa las matrices A y B de forma tal de lograr una matriz C de dimension 4x5. Con la funcion Attributes inspecciona los atributos de C. Posteriormente renombra filas y columnas como "fila_1", "fila_2" ... "columna_1", "columna_2", vuelve a inspeccionar los atributos. Finalmente, generaliza y escribi una funcion que reciba como argumento una matriz y devuelva como resultado la misma matriz con columnas y filas con nombres.
 
 Utilizamos la funcion cbind() para combinar ambas matrices y veo con el atributo que solo tiene el $dim
+
 ```{r, echo=TRUE}
-c<- cbind(A,B)
+c <- cbind(A, B)
 attributes(c)
 ```
 
 Utilizo como primer forma la funcion provideDimnames() y el atributo nos muestra los $dimnames de las columnas y filas en un formato parecido a una lista
+
 ```{r, echo=TRUE}
 c<- provideDimnames(c, sep="_", base=list("fila", "columna"))
 attributes(c)
-
 ```
 
-Aca realizo una funcion general que hace un nested loop con dos for donde renombra todas las filas y columnas de una matriz segun su posicion
+Acá realizo una función general que hace un nested loop con dos for donde renombra todas las filas y columnas de una matriz segun su posición.
+
 ```{r, echo=TRUE}
+c <- cbind(A, B)
+
 nombres <- function(matriz){
   filas<-dim(matriz)[1]
   columnas<- dim(matriz)[2]
@@ -311,25 +317,24 @@ nombres <- function(matriz){
   
   return(matriz)
 }
-```
-```{r, echo=FALSE}
+
 nombres(c)
 ```
-
+\m{Si generas de nuevo la matriz c no corre.}
 
 ### 1.4.5 Puntos Extra: Generaliza la funcion para que funcione con arrays de forma que renombre filas, columnas y matrices
 
 ```{r, echo=TRUE}
+c <- cbind(A, B)
 renombre <- function(ary){
   ary <- provideDimnames(ary, sep="_", base=c("fila","columna","matriz"), unique=TRUE)
 
   return(ary)
-  }
-```
-```{r, echo=FALSE}
+}
+
 renombre(c)
 ```
-
+\m{Correcto!}
 
 # Ejercicio 2
 
@@ -343,13 +348,16 @@ La funcion ifelse() funciona como un conjunto de if y else, utiliza tres valores
 + El segundo es el resultado en caso de que el objeto logico sea verdadero
 + El tercero es el resultado en caso de que el objeto logico sea falso
 
+\m{Correcto esta vectorizada}
 
 ### 2.1.2 Dado el vector x tal que: x <- c(8, 6, 22, 1, 0, -2, -45), utilizando la funcion ifelse() del paquete base, reemplaza todos los elementos mayores estrictos a 0 por 1, y todos los elementos menores o iguales a 0 por 0.
 
 ```{r, echo=TRUE}
 x<-c(8, 6, 22, 1, 0, -2, -45)
 x<-ifelse(x>0, x<-1, x<- 0)
+x
 ```
+\m{Correcto, pero no es necesario asignar dentro de ifelse. Ver solución}
 
 ### 2.1.3 ¿Porque no fue necesario usar un loop?
 No fue necesario ya que el funcionamiento de ifelse itera sobre el vector
@@ -368,15 +376,17 @@ Para generar un while loop es necesario completar 3 partes:
 
 Se diferencia de un for loop ya que el while itera durante todo momento que el valor logico sea verdadero, mientras que un for loop itera mientras que la variable dada se encuentre dentro de los valores del vector dado. Ejemplo: i in 1:50
 
+\m{Correcto}
+
 ### 2.2.2 Dada la estructura siguiente, ¿ Cual es el valor del objeto suma? Responda sin realizar el calculo en R
 
 ```{r, eval=FALSE, echo=TRUE}
-x <- c(1,2,3)
+x <- c(1, 2, 3)
 suma <- 0
 i <- 1
-while(i < 6){
-suma = suma + x[i]
-i <- i + 1
+while (i < 6) {
+  suma = suma + x[i]
+  i <- i + 1
 }
 ```
 
@@ -396,85 +406,87 @@ Por lo que se seguira el siguiente proceso
 
 Bien, podemos ver como el while funciona perfectamente hasta i=3, sucede que i=4 e i=5 valen NA y al sumar un numero y un NA nos dara NA como suma ya que estas sumando un numero y un objeto inexistente.
 
+\m{Correcto!}
 
 ### 2.2.3 
 > Modifica la estructura anterior para que suma valga 0, si el vector tiene largo menor a 5 o que sume los primeros 5 elementos si el vector tiene largo mayor a 5. Apartir de ella genera una funcion que se llame sumar_si y verifica que funcione utilizando los vectores y<-c(1:3), z<-(1:15).
 
 
 Para que funcione, colocamos un if dentro del while que mida el vector y si es menor a 5 da 0.
+
 ```{r, echo=TRUE}
-x <- c(1,2,3)
+x <- c(1, 2, 3)
 suma <- 0
 i <- 1
-while(i < 6){
-  if(length(x)<5){
-    suma=0;
+while (i < 6) {
+  if (length(x) < 5) {
+    suma = 0
+    
   } else {
-    suma=suma+x[i]
+    suma = suma + x[i]
   }
-i <- i + 1
+  i <- i + 1
 }
 ```
 
 Creamos la funcion sumar_si cambiando las variables x por vec y haciendola universal.
+
 ```{r, echo=TRUE}
-sumar_si <- function(vec){
-suma <- 0
-i <- 1
-while(i < 6){
-  if(length(vec)<5){
-    suma=0;
-  } else {
-    suma=suma+vec[i]
+sumar_si <- function(vec) {
+  suma <- 0
+  i <- 1
+  while (i < 6) {
+    if (length(vec) < 5) {
+      suma = 0
+      
+    } else {
+      suma = suma + vec[i]
+    }
+    i <- i + 1
   }
-i <- i + 1
-}
-return(suma)
+  return(suma)
 }
 ```
 
 Probamos su funcionamiento con z<-(1:15) y con y<-c(1:3)
-```{r, echo=TRUE}
-y<-c(1:3)
-z<-(1:15)
-```
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
+y <- c(1:3)
+z <- (1:15)
 print(paste("La suma de el vector y da:", sumar_si(y)))
 print(paste("La suma de el vector z da:", sumar_si(z)))
 ```
-
+\m{Muy bien!}
 
 ### 2.2.4 Genera una estructura que multiplique los numeros naturales (empezando por el 1) hasta que dicha multiplicacion supere el valor de 10000. ¿Cuanto vale dicha productoria?
 
 ```{r, echo=TRUE}
-mult<- 1
-i=1
-while (mult<10000) {
-  mult=mult*i
-  i=i+1
+mult <- 1
+i = 1
+while (mult < 10000) {
+  mult = mult * i
+  i = i + 1
 }
-```
-```{r, echo=FALSE}
-print(paste("La productoria vale:", mult))
-print(paste("Dicho producto sale de hacer:", mult/(i-1), "*", i-1))
-```
 
+print(paste("La productoria vale:", mult))
+print(paste("Dicho producto sale de hacer:", mult / (i - 1), "*", i - 1))
+```
+\m{Correcto}
 
 ## 2.3 Parte 3: Ordenar
 
 ### 2.3.1 Genera una funcion ordenar_x() que para cualquier vector numerico, ordene sus elementos de menor a mayor.
 
-La primera forma es utilizando la funcion sort
+La primera forma es utilizando la función sort
 ```{r, echo=TRUE}
 ordenar_x <- function(ordenar){
   sort(ordenar, decreasing = FALSE)
 }
 ```
 
-La segunda forma es con una funcion recursiva que lo que hace es tomar un valor del vector dado, en este caso es el primer valor y mide el resto de elementos en un lapply donde evalua cada valor del vector con respecto al primer valor del mismo y coloca los valores segun si estos son mayores o menores al primero en 2 vectores, si estos vectores son mas largos que 1 recurre en la funcion cambiando el vector inicial por este tramo y luego los almacena en un vector.
-```{r, echo=TRUE}
+La segunda forma es con una función recursiva que lo que hace es tomar un valor del vector dado, en este caso es el primer valor y mide el resto de elementos en un lapply donde evalúa cada valor del vector con respecto al primer valor del mismo y coloca los valores según si estos son mayores o menores al primero en 2 vectores, si estos vectores son mas largos que 1 recurre en la función cambiando el vector inicial por este tramo y luego los almacena en un vector.
 
+```{r, echo=TRUE}
 ordenar_x <- function(ordenar){
   centro<- ordenar[1]
   menor<-c()
@@ -499,7 +511,9 @@ ordenar_x <- function(ordenar){
   return(ordenado)
 }
 ```
-### Testeos, utilizaremos estos vectores::
+
+Testeos, utilizaremos estos vectores:
+
 ```{r}
 x <- c(3,4,5,-2,1)
 y <- c(5,5,1,0,-2,-4,99,99)
@@ -510,6 +524,8 @@ y <- c(5,5,1,0,-2,-4,99,99)
 + El vector ordenado de y queda como:
 `r ordenar_x(y)`
 
+\m{Correcto! Copada forma}
+
 ### 2.3.2 ¿Que devuelve order(order(x))?
 
 La funcion order() evalua las posiciones de cada valor del vector y ordena sus posiciones segun donde se encuentre en el vector, por lo que si hacemos x[order(x)[1]], nos dara el valor mas chico de el vector x
@@ -517,11 +533,7 @@ La funcion order() evalua las posiciones de cada valor del vector y ordena sus p
 Por lo que order(order(x)) va a tomar las posiciones de los vectores de x ordenados y devolvera las posiciones ordenadas de x tal que si hacemos order(x)[order(order(x))[1]] nos dara el valor mas chico de el order(x)
 
 
-
-
-
-
-
+\m{Correcto}
 
 # Ejercicio 3
 
@@ -562,21 +574,25 @@ for (i in valores) {
   }else{
     sumacum<- c(sumacum,sumacum[i-1]+valores[i])}
 }
+sumacum
 ```
 
 #### Ambas formas nos daran:
 
 `r Reduce(sum,valores, accumulate=TRUE)`
 
+\m{Excelente! La única observación es que usar c() en el for genera nuevos vectores en cada iteración por lo cual no es eficiente.}
+
 ## 3.3 Extra 3
 
 ### 3.3.1 
-> Escribi una funcion que reciba como input un vector numerico y devuelva los indices donde un numero se repite almenos k veces. Los parametros deben ser el vector, el numero a buscar y la cantidad minima de veces que se debe repetir. Si el numero no se encuentra, retorne un warning y el valor NULL
+> Escribí una función que reciba como input un vector numérico y devuelva los indices donde un número se repite almenos k veces. Los parámetros deben ser el vector, el numero a buscar y la cantidad mínima de veces que se debe repetir. Si el número no se encuentra, retorne un warning y el valor NULL
 
-* Para poder realizar dicho proceso, necesitamos definir la funcion.
-+ Luego iteramosen un for que va de 1 al largo - la cantidad de repeticiones+1
-+ Alli un if vera si existe dicha repeticion en algun punto del vector y guarda el indice .
-+ Luego tenemos un if que ve si el vector de indices esta vacio, de estarlo envia un warning null
+* Para poder realizar dicho proceso, necesitamos definir la función.
++ Luego iteramos en un for que va de 1 al largo - la cantidad de repeticiones+1
++ Allí un if vera si existe dicha repetición en algún punto del vector y guarda el indice .
++ Luego tenemos un if que ve si el vector de indices esta vacío, de estarlo envía un warning null
+
 ```{r, echo=TRUE}
 aparece <- function(v,n,r){
   ap<-c()
@@ -592,13 +608,13 @@ aparece <- function(v,n,r){
 }
 ```
 
-
-#### Ejemplo utilizando c(3, 1, 2, 3, 3, 3, 5, 5, 3, 3, 0, 0, 9, 3, 3, 3), con 3 repeticioens del numero 3
+Ejemplo utilizando c(3, 1, 2, 3, 3, 3, 5, 5, 3, 3, 0, 0, 9, 3, 3, 3), con 3 repeticiones del número 3
 
 ```{r, echo=TRUE}
 vec<- c(3, 1, 2, 3, 3, 3, 5, 5, 3, 3, 0, 0, 9, 3, 3, 3)
-aparece(vec,3,3)
+aparece(vec, 3, 3)
 ```
+\m{Notable}
 
 ## 3.4 Extra 4
 
@@ -618,5 +634,6 @@ f3 <- factor(letters, levels = rev(letters))
 + 2. La segunda parte de la funcion voltea el factor entero sin voltear los niveles
 + 3. La tercera parte de la funcion genera un factor con los niveles volteados
 
+\m{Correcto.}
 
-
+\m{Trabajo perfecto. Se puede mejorar el código en las iteraciones pre alocando los vectores o utilizando alguna función para hacerlo más eficiente pero esta todo notable. Muy pero muy buen trabajo!!}
