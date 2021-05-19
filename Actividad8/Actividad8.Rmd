@@ -58,9 +58,72 @@ select(filter(mpg, manufacturer=="toyota" & model=="camry"),
 
 ### 6. Calcula el rendimiento promedio en ciudad para cada marca
 
+Los agrupamos y luego hacemos un "Resumen" de los datos segun lo deseado.
+Posteriormente lo ordenamos y tenemos los valores hechos!
+```{r, echo=TRUE}
+agrupacion<-mpg %>% group_by(manufacturer)
+a<-agrupacion %>% summarise(promedio=mean(cty))
+a<-a[order(-a$promedio),]
+```
+
+La marca con mejor rendimiento es: `r a[1,1]` con `r a[1,2]` millas por galon  
+La marca con peor rendimiento es: `r a[dim(a)[1],1]` con `r a[dim(a)[1],2]` millas por galon
+
+### 7. Para cada marca: Calcula el rendimiento promedio en ciudad, el error estandar de la media y el rango  
+
+
+Ya tenemos la agrupacion por marca asi que no saltearemos ese paso!  
+  
+  
+Promedio por marca
+```{r}
+agrupacion %>% summarise(promedio=mean(cty))
+```
+Error estandar de la media por marca en ciudad
+```{r}
+agrupacion %>% summarise(error_estandar=sd(cty))
+```
+Rango por marca de rendimiento en ciudad
+```{r, echo=TRUE, message=FALSE}
+k<-agrupacion %>% summarise(rango=range(cty)) 
+k %>% summarise(rango_1=min(rango), rango_2=max(rango))
+```
+
+
+### 8. Mejora en el rendimiento: calcular el rendimiento promedio para cada marca, distinguiendo antes y despues de 2004
 
 ```{r}
-a<-mpg %>% group_by(manufacturer)
+merge(filter(agrupacion, year<=2004) %>% summarise(rendimiento_promedio_antes_2004=mean(cty)),
+filter(agrupacion, year>2004) %>% summarise(rendimiento_promedio_despues_2004=mean(cty)))
 ```
+
+### 9. Calcular el rendimiento promedio en carretera (hwy) para 3 marcas seleccionadas aleatoriamente y ordena el resultado de menor a mayor
+
+Para poder hacer esto, tenemos que tomar 3 aleatorios pero se repiten las marcas si no las unificamos por lo que primero debemos unificarlas.
+```{r, warning=FALSE, echo=TRUE}
+marcas<- agrupacion %>% summarise(mean(cty))
+marcas<-sample(marcas$manufacturer,3)
+promedio2 <- agrupacion %>% filter(manufacturer==marcas) %>% summarise(promedio=mean(hwy))
+promedio2[order(promedio2$promedio),]
+
+```
+
+
+### 10. Crea una nueva variable que transforme hwy en litros/100km
+
+```{r, echo=TRUE, message=FALSE}
+head(merge(mpg,mpg %>% summarise("litros/100km"=hwy/235.214583)))
+
+```
+
+
+
+
+
+
+
+
+
+
 
 
