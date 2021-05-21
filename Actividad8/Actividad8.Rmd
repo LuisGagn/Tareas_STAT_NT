@@ -4,7 +4,7 @@ author: "Luis Gagñevin"
 date: "5/13/2021"
 output: pdf_document
 ---
-
+\newcommand{\m}{\ \newline\textcolor{blue}{Comentario: }\textcolor{red}}
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -69,6 +69,8 @@ a<-a[order(-a$promedio),]
 La marca con mejor rendimiento es: `r a[1,1]` con `r a[1,2]` millas por galon  
 La marca con peor rendimiento es: `r a[dim(a)[1],1]` con `r a[dim(a)[1],2]` millas por galon
 
+\m{No es la forma de hacerlo, no hay necesidad de generar objetos intermedios. Si se quiere usar el texto bastaría con a nada más.}
+
 ### 7. Para cada marca: Calcula el rendimiento promedio en ciudad, el error estandar de la media y el rango  
 
 
@@ -89,6 +91,7 @@ k<-agrupacion %>% summarise(rango=range(cty))
 k %>% summarise(rango_1=min(rango), rango_2=max(rango))
 ```
 
+\m{El calculo tiene que ser en el mismo chunk y en el mismo objeto, podes (y es la idea en este ejercicio) hacer todo en el mismo summarise.}
 
 ### 8. Mejora en el rendimiento: calcular el rendimiento promedio para cada marca, distinguiendo antes y despues de 2004
 
@@ -96,6 +99,8 @@ k %>% summarise(rango_1=min(rango), rango_2=max(rango))
 merge(filter(agrupacion, year<=2004) %>% summarise(rendimiento_promedio_antes_2004=mean(cty)),
 filter(agrupacion, year>2004) %>% summarise(rendimiento_promedio_despues_2004=mean(cty)))
 ```
+
+\m{No es incorrecto pero (de nuevo) tiene que quedar todo en un objeto.}
 
 ### 9. Calcular el rendimiento promedio en carretera (hwy) para 3 marcas seleccionadas aleatoriamente y ordena el resultado de menor a mayor
 
@@ -105,9 +110,9 @@ marcas<- agrupacion %>% summarise(mean(cty))
 marcas<-sample(marcas$manufacturer,3)
 promedio2 <- agrupacion %>% filter(manufacturer==marcas) %>% summarise(promedio=mean(hwy))
 promedio2[order(promedio2$promedio),]
-
 ```
 
+\m{Revisar la solución. Si primero haces un summarise y luego filtras estas haciendo un calculo para toda la columna que luego no vas a usar. Primero filtras (reducís dimensión en filas) y luego computas. Por último, usar set.seed para reproducir resultado.}
 
 ### 10. Crea una nueva variable que transforme hwy en litros/100km
 
@@ -116,7 +121,7 @@ head(merge(mpg,mpg %>% summarise("litros/100km"=hwy/235.214583)))
 
 ```
 
-
+\m{Si bien se llega a los resultados finales se debe mejorar en la forma de hacer los calculos y no generar objetos intermedios cuando no son necesarios. Además de computar en un mismo objeto en vez de generar varios.8}
 
 
 

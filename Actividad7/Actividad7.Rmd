@@ -4,6 +4,7 @@ author: "Luis Gagñevin"
 date: "5/10/2021"
 output: pdf_document
 ---
+\newcommand{\m}{\ \newline\textcolor{blue}{Comentario: }\textcolor{red}}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -66,6 +67,7 @@ ggplot(propinas, aes(total,propina,colour=fuma))+geom_point()+
   scale_color_brewer(palette="Dark2")+ 
   geom_smooth(colour="black")
 ```
+\m{Usar method = lm en geom_smooth}
 
 # Ejercicio 3
 
@@ -95,6 +97,6 @@ library(forcats)
 ggplot(propinas, aes(x= fct_infreq(dia), fill=dia))+geom_bar()+coord_flip()
 ```
 
-
+\m{Excelente}
 
 

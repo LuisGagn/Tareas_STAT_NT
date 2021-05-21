@@ -4,7 +4,7 @@ author: "Luis Gagñevin"
 date: "5/9/2021"
 output: pdf_document
 ---
-
+\newcommand{\m}{\ \newline\textcolor{blue}{Comentario: }\textcolor{red}}
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -20,11 +20,11 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 ```
 
-Tras investigar los datos de mpg, logre conseguir informacion donde vemos que:
+Tras investigar los datos de mpg, logre conseguir información donde vemos que:
 * HWY = "Highway Miles per Gallon"
 + CTY = "City Miles per Gallon"
 
-Sabiendo esos datos, podemos realizar un grafico de dispersion.
+Sabiendo esos datos, podemos realizar un gráfico de dispersión.
 ```{r, echo=TRUE}
 ggplot(mpg, aes(hwy,cty))+geom_point() +
   labs(title="Comparativa de gasto en galones/milla entre ciudad y ruta",
@@ -42,6 +42,7 @@ ggplot(mpg, aes(hwy,cty))+geom_point() +
 
 
 Me resulta mejor la opcion de la transparencia, ya que queda un trabajo mas prolijo y se puede apreciar facilmente donde hay acumulaciones, aunque algo que es evidente, no podemos saber cuantas acumulaciones hay en el mismo punto, si no un aproximado con 3 colores ya que cada puntito seria 1/3 del total de transparencia, por lo que seria mas util el uso de geom_jitter()
+
 ```{r, echo=TRUE}
 ggplot(mpg, aes(hwy,cty))+geom_point(alpha=1/3, colour="blue") +
    labs(title="Comparativa de gasto en galones/milla entre ciudad y ruta",
@@ -49,6 +50,8 @@ ggplot(mpg, aes(hwy,cty))+geom_point(alpha=1/3, colour="blue") +
        y="Millas en ciudad por galon",
        tag="transparencia")
 ```
+
+\m{Es recomendable la transparencia al ser variables continuas.}
 
 ```{r, echo=TRUE}
 ggplot(mpg, aes(hwy,cty))+geom_jitter(colour="blue") +
@@ -101,3 +104,4 @@ ggplot(mpg, aes(hwy,cty))+geom_jitter() +
       facet_wrap(~class)
 ```
 
+\m{Falto agregar el color en el aes. En general, e8.xcelente trabajo}
