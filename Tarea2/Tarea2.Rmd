@@ -10,8 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Antes de empezar llamamos las librerias que precisaremos en el trabajo
-```{r, echo=TRUE}
+```{r, echo=TRUE, message=FALSE}
 library(gapminder)
+library(tidyverse)
 library(ggplot2)
 ```
 
@@ -80,9 +81,18 @@ gd+ geom_line(color="darkred")+facet_grid(gapminder$continent)+ylim(0,40000)+
 Comente algo interesante que se pueda aprender de su grafico
 
 ```{r}
-gd<- ggplot(gapminder, aes(year, pop))
-gd + geom_col()+facet_wrap(gapminder$continent)+ scale_y_continuous(labels = scales::comma, breaks = seq(10*10^7, 50*10^8, by=10*10^8))
+dg<- gapminder %>% filter(continent=="Oceania" | continent=="Asia")
+ggplot(dg, aes(year, pop))+geom_col()+
+  facet_wrap(dg$continent, scales="free")+
+  scale_y_continuous(labels = scales::label_number_si())+
+  labs(x="Año", y="Poblacion")
 ```
 
-Realize una comparativa de crecimiento poblacional entre continentes, aqui se puede ver como crece mas rapido Asia que los demas continentes mientras que oceania es el continente con el menor crecimiento.
+Decidi investigar primero que continente tenia el mayor crecimiento y cualel menor.
+Vi que el continente con mayor crecimiento es ASIA y el menor es Oceania.
+Oceania tiene una poblacion 160 veces menor que la de ASIA.
+
+
+
+
 
