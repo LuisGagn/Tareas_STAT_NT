@@ -3,7 +3,12 @@ title: "Tarea 2"
 author: "Luis Gagñevin"
 date: "5/21/2021"
 output: pdf_document
+fig_caption: true
+keep_tex: true
+includes:
+in_header: Tarea2.tex
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -14,8 +19,20 @@ Antes de empezar llamamos las librerias que precisaremos en el trabajo
 library(gapminder)
 library(tidyverse)
 library(ggplot2)
+library(readr)
+library(ggpmisc)
 ```
+Las librerias que utilizaremos seran:  
+* Gapminder (Datos)
++ tidyverse (Manipulacion de los Datos y Matrices)
++ ggplot2 (Se utilizara para la creacion de graficos)
++ readr (Datos)
++ ggpmisc (Complemento para ggplot2)  
 
+Todas las figuras y graficos estan autocontenidas y tienen la informacion necesaria para ser entendidas.
+
+
+\pagebreak
 # Ejercicio 1 
 
 ### 1. 
@@ -23,35 +40,37 @@ library(ggplot2)
 Las etiquetas de los ejes deben ser claras y describir las variab les involucradas. Incluir un caption en la Figura con algun comentario de interes que describa el grafico. El resto de los comentarios del grafico se realizaran en el texto
 
 
-```{r, echo=TRUE, message=FALSE}
+```{r, echo=TRUE,fig.cap="Diagrama de dispersion con plot de regresion lineal", message=FALSE}
 gd<- ggplot(gapminder, aes(lifeExp, year, color=continent))
-gd+geom_point()+geom_smooth(se=FALSE)+labs(x="Esperanza de Vida", 
-                                           y="Año", 
-                                           colour="Continente", 
-                                           title="Esperanza de vida por año segun cada continente",
-                                           caption="Diagrama de dispersion con plot de regresion lineal")
+gd+geom_point()+geom_smooth(se=FALSE)+
+  labs(x="Esperanza de Vida", 
+       y="Año", 
+       colour="Continente", 
+       title="Esperanza de vida por año segun cada continente")
 ```
+   
+  \ 
+Aqui tenemos un grafico que contiene las variables de esperanza de vida y año y continente, podemos ver como la esperanza de vida en general aumenta en todo continente, en algunos continentes la esperanza aumenta menos que en otros, por ejemplo en Oceania, pasa de los 69 años hasta los 80 mientras que en paises como Africa toma un recorrido desde los 20 hasta los 75 aprox.    
 
-Aqui tenemos un grafico que contiene las variables de esperanza de vida y año y continente, podemos ver como la esperanza de vida en general aumenta en todo continente, en algunos continentes la esperanza aumenta menos que en otros, por ejemplo en Oceania, pasa de los 69 años hasta los 80 mientras que en paises como Africa toma un recorrido desde los 20 hasta los 75 aprox.  
-
+\pagebreak
 
 ### 2. 
 > Omitir la capa de geom_point(), Las lineas aun aparecen pero los puntos no. ¿Porque sucede esto?
-
-```{r, echo=TRUE}
+  
+```{r, echo=TRUE, fig.cap="Diagrama de regresion lineal", message=FALSE}
 gd+geom_smooth(se=FALSE)
 ```
 
 La respuesta a esto es sencilla, estamos sobreponiendo dos ploteos los cuales comparten variables para poder ver la dispersion en el grafico anterior, sin embargo, las lineas que se forman son independientes a la existnecia de los puntos en el ploteo ya que son parte de geom_smooth() y no de geom_point().
 
-
+\pagebreak
 ### 3. 
 > El siguiente es un grafico de dispersion entre lifeExp y gdpPercap coloreado por continent.
 Usando como elemento estetico color (aes()) nosotros podemos distinguir los distintos continentes usando diferentes colores de similar manera usando forma (shape)
 Dicho grafico esta sobrecargado. ¿Como lo modificarias para que sea mas clara la comparacion para los distintos continentes y porque?
 Las etiquetas de los ejes deben ser claras y describir las variables involucradas. Comenta alguna caracteristica interesante que describa lo que aprendes viendo el grafico
 
-```{r, echo=TRUE, message=FALSE}
+```{r, echo=TRUE, warning=FALSE, fig.cap="Comparativa entre esperanza de vida y PBI per capita" }
 gd<- ggplot(gapminder, aes(gdpPercap, lifeExp))
 gd+geom_point(color='skyblue')+facet_grid(gapminder$continent)+xlim(0,40000)
 ```
@@ -62,36 +81,42 @@ Es interesante ver como el continente de oceania tiene la mayor esperanza de vid
 Para hacer el grafico mas lindo a la vista, los separe segun el continente usando un facet_grid(), deja mejor visto y abierto a una comparacion mas linda y a la vista que un facet_wrap() y que sin utilizarlo.
 Tambien elimine los valores sueltos que serian los de un GDP mayor a 40000 ya que los casos mayores son muy aislados y no son relevantes para una comparacion eficaz entre los continentes.  
 
-
+\pagebreak
 ### 4.
 > Hacer un grafico de lineas que tenga en el eje x year y en el eje y gdpPercap para cada continente en una misma ventana grafica.
 En cada continente, el grafico debe contener una linea para cada pais a lo largo del tiempo (Serie de tiempo de gdpPercap). Las etiquetas de los ejes deben ser claras y describ ir las variables involucradas. Incluir un caption en la Figura con algun comentario de interes que describa el grafico
 
-```{r}
+```{r, echo=TRUE, fig.cap="Grafico de lineas entre el año y el GDP per capita de gapminder"}
 gd<- ggplot(gapminder, aes(year, gdpPercap))
 gd+ geom_line(color="darkred")+facet_grid(gapminder$continent)+ylim(0,40000)+
   labs(y="PBI per capita",
        x="Año", 
        title = "Relacion PBI per capita por año para cada continente",
-       caption="Grafico de lineas entre el año y el GDP per capita de gapminder")
+       caption=)
 ```
-
+  
+\ 
+  
+\pagebreak
 ### 5. 
 > Usando los datos de gapminder seleccione una visualizacion que describa algun aspecto de los datos que no exploramos.
 Comente algo interesante que se pueda aprender de su grafico
-
-```{r, echo=TRUE}
+  
+```{r, echo=TRUE, fig.cap="CRecimiento poblacional entre Asia y Oceania"}
 dg<- gapminder %>% filter(continent=="Oceania" | continent=="Asia")
 ggplot(dg, aes(year, pop))+geom_col()+
   facet_wrap(dg$continent, scales="free")+
   scale_y_continuous(labels = scales::label_number_si())+
   labs(x="Año", y="Poblacion")
 ```
+  
+\ 
 
 Decidi investigar primero que continente tenia el mayor crecimiento y cualel menor.
 Vi que el continente con mayor crecimiento es ASIA y el menor es Oceania.
 Oceania tiene una poblacion 160 veces menor que la de ASIA.
-
+  
+\pagebreak
 # Ejercicio 2
 
 ### 1.
@@ -100,12 +125,14 @@ Oceania tiene una poblacion 160 veces menor que la de ASIA.
 + Incuir usando labs() el nombre de los ejes y titulo informativo
 + Usa la paleta Dark2
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.cap= "Comparativa de tracciones vehiculares en el mercado"}
 data(mpg)
 ggplot(mpg, aes(x=drv, fill=drv))+geom_bar()+scale_fill_brewer(palette = "Dark2")+
   labs(x="Traccion", y="Cantidad de vehiculos", title="Traccion vehicular")
 ```
 
+  
+\pagebreak
 ### 2.
 > Usando como base el grafico anterior:
 * Incluir en el eje y porcentaje en vez de conteos
@@ -118,22 +145,110 @@ Luego pasamos al grafico donde utilizamos un geom_bar que utilizara la x segun l
   
 En la parte estetica, utilizamos un scale_fill_brewer y no un color ya que estamos utilizando un fill= en la parte grafica.  
 Luego renombramos las columnas, titulos y ejes y borramos la leyenda
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.cap="Traccion predominante del mercado"}
 data(mpg)
 mpgp<- mpg %>% group_by(drv) %>% summarize(veces = n()) %>% mutate(prct=veces/sum(veces))
 
-# Parte Grafica
 ggplot(mpgp, aes(drv,prct, fill=drv))+
   geom_bar(stat='identity')+
   geom_text(aes(label=scales::percent(prct),vjust= -.3))+
   scale_y_continuous(labels=scales::percent)+
-  
-# Parte Estetica
   scale_fill_brewer(palette = 'Dark2')+
   scale_x_discrete(labels=c("4 ruedas", "Frontal", "Trasera"))+
   labs(x="Traccion", y="Cantidad de vehiculos", title="Traccion vehicular")+
   theme(legend.position="none")
 ```
+  
+\ 
+\pagebreak
+
+# Ejercicio 3.
+
+### 1.
+> Leer los datos usando el paquede readr y la funcion read_csv(). Guardarlos en un objeto llamado datos.
+
+```{r, echo=TRUE, message=FALSE}
+datos <- read_csv('dato_emision.csv')
+```
+### 2.
+> Usando las funciones de la libreria dplyr, obtenga que fuentes tienen la emision maxima. Recuerde que total deberia ser excluido para esta respuesta asi como los subtotales
+  
+```{r, echo=TRUE}
+datosnew<- datos %>% filter(fuente != 'TOTAL' & fuente != 'I_E' & fuente != 'S_C' & !is.na(emision)) %>% arrange(desc(emision))
+datosnew[1:3,]
+```
+### 3.
+> En que año se dio la emision maxima para la fuente que responde la pregunta anterior.
+
+Con la funcion siguiente podemos ver el año en que se dio la emision maxima.
+```{r, echo=TRUE, results='hide'}
+datosnew[which.max(datosnew$emision), 1]
+```
+
+La emision mas alta fue en: `r datosnew[which.max(datosnew$emision), 1]`
+
+### 4.
+> Usando las funciones de la librerya dplyr obtenga las 5 fuentes, sin total ni subtotales que tienen un valor medio de emision a lo largo de todos los años mas grandes.
+
+Para hacer eso, agrupamos y creamos el "ValorMedio" el cual tendra el mean. Luego los ordenamos de manera descendente y tomatmos los primeros 5 valores y seleccionamos solo la columna para saber quienes son los que mayor emision producen en promedio.
+
+```{r, echo=TRUE, results='hide'}
+datos2 <- datosnew %>% group_by(fuente) %>% summarise(ValorMedio = mean(emision, na.rm=TRUE)) %>% arrange(desc(ValorMedio)) 
+datos2[1:5, 1]
+```
+
+Las 5 mayores emisiones son: `r datos2[1:5, 1]`
+ \pagebreak
+  
+### 5.
+> Usando ggplot2 realice un grafico de las emisiones a lo largo de los años para cada fuente. Utilice dos elementos geometricos, puntos y lineas. Selecciones para dibujar solamente las 5 fuentes que a lo largo de los años tienen una emision media mayor que el resto. Las etiquetas de los ejes deben ser claras y describir las variables involucradas. Incluir un caption en la figura con algun comentario de interes que describa el grafico.
+
+Renombre las variables para que sea entendible para el publico.  
+Para dar una mayor claridad coloree los graficos de forma que contrasten y se noten los puntos donde hubo un dato.  
+
+```{r, echo=TRUE, fig.cap="Emision de Co2 desde 1990-2017, datos tomados por el MIEM"}
+
+datosmax<- filter(datosnew, fuente %in% as.matrix(datos2[1:5,1]))
+datosmax$fuente <- factor(datosmax$fuente, labels=c("Bunkers Internacionales","Centrales Electricas S.Publico",
+                                                    'Industrial','Quema de Biomasa',"Transporte"))
+
+
+a<- ggplot(datosmax, aes(AÑO, emision))
+a+geom_line(color="darkgreen")+geom_point(color="darkred")+facet_wrap(~datosmax$fuente, scales = 'free')+
+  labs(y="Emision de CO2", x= "Año", 
+       title = "Evolucion de Emision de Co2 segun sector")
+```
+   
+  \ 
+  \pagebreak
+    
+### 6.
+> Replique un grafico usando ggplot2.
+
+```{r, warning=FALSE, echo=TRUE, fig.cap="Grafico de cajas y bigotes con segmento de linea que muestra el rango"}
+  ggplot(datos, aes(reorder(fuente, -emision, mean, na.rm=TRUE),emision))+geom_boxplot()+geom_line()+
+  labs(y="Emision de CO2 en Gg", x="Fuentes con mayor emision media entre 1990-2016")
+```
+  
+\ 
+\pagebreak 
+
+### 7.
+> Usando la libreria de ggplot2 y ggpmisc replique el siguiente grafico de las emisiones totales entre 1990 y 2016.
+Los puntos rojos indican maximos locales o picos de emiision de CO2 en Gg. 
+
+```{r, fig.cap="El grafico esta hecho por un geom_line, geom_point y utilizando stat_peaks para ver los picos"}
+a<- datos %>% filter(fuente=='TOTAL')
+ggplot(a, aes(x=AÑO, y=emision))+geom_line()+geom_point()+
+  stat_peaks(color='red')+stat_peaks(geom='text', vjust=-.5, color='red')+
+  labs(y="Emision de CO2 en Gg", x="Año",
+       title='Picos de emision entre 1990-2017')
+```
+
+
+
+
+
 
 
 
