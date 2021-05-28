@@ -80,7 +80,7 @@ gd+ geom_line(color="darkred")+facet_grid(gapminder$continent)+ylim(0,40000)+
 > Usando los datos de gapminder seleccione una visualizacion que describa algun aspecto de los datos que no exploramos.
 Comente algo interesante que se pueda aprender de su grafico
 
-```{r}
+```{r, echo=TRUE}
 dg<- gapminder %>% filter(continent=="Oceania" | continent=="Asia")
 ggplot(dg, aes(year, pop))+geom_col()+
   facet_wrap(dg$continent, scales="free")+
@@ -92,6 +92,48 @@ Decidi investigar primero que continente tenia el mayor crecimiento y cualel men
 Vi que el continente con mayor crecimiento es ASIA y el menor es Oceania.
 Oceania tiene una poblacion 160 veces menor que la de ASIA.
 
+# Ejercicio 2
+
+### 1.
+> Con los datos mpg que se encuentran en ggplot2, hacer un grafico de barras para la variables drv con las siguientes caracteristicas:
+* Las barras tienen que estar coloreadas por drv
++ Incuir usando labs() el nombre de los ejes y titulo informativo
++ Usa la paleta Dark2
+
+```{r, echo=TRUE}
+data(mpg)
+ggplot(mpg, aes(x=drv, fill=drv))+geom_bar()+scale_fill_brewer(palette = "Dark2")+
+  labs(x="Traccion", y="Cantidad de vehiculos", title="Traccion vehicular")
+```
+
+### 2.
+> Usando como base el grafico anterior:
+* Incluir en el eje y porcentaje en vez de conteos
++ Usando scale_y_continous() cambiar la escala del eje y a porcentajes
++ Usando geom_text() incluir texto con porcentajes arriba de cada barra
+
+
+Primero debemos de generar con tidyverse un grupo de valores con el porcentaje de veces que aparece en la columna drv cada tipo de traccion (4 f r).  
+Luego pasamos al grafico donde utilizamos un geom_bar que utilizara la x segun los valores porcentuales de Y y colocara sobre estas columnas el % aproximado a 1 cifra de cada una.  
+  
+En la parte estetica, utilizamos un scale_fill_brewer y no un color ya que estamos utilizando un fill= en la parte grafica.  
+Luego renombramos las columnas, titulos y ejes y borramos la leyenda
+```{r, echo=TRUE}
+data(mpg)
+mpgp<- mpg %>% group_by(drv) %>% summarize(veces = n()) %>% mutate(prct=veces/sum(veces))
+
+# Parte Grafica
+ggplot(mpgp, aes(drv,prct, fill=drv))+
+  geom_bar(stat='identity')+
+  geom_text(aes(label=scales::percent(prct),vjust= -.3))+
+  scale_y_continuous(labels=scales::percent)+
+  
+# Parte Estetica
+  scale_fill_brewer(palette = 'Dark2')+
+  scale_x_discrete(labels=c("4 ruedas", "Frontal", "Trasera"))+
+  labs(x="Traccion", y="Cantidad de vehiculos", title="Traccion vehicular")+
+  theme(legend.position="none")
+```
 
 
 
