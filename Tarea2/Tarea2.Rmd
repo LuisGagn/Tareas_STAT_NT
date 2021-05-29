@@ -244,7 +244,78 @@ ggplot(a, aes(x=AÑO, y=emision))+geom_line()+geom_point()+
   labs(y="Emision de CO2 en Gg", x="Año",
        title='Picos de emision entre 1990-2017')
 ```
+  
+\ 
+\pagebreak
 
+
+# Ejercicio 4.
+
+> Estudiar una muestra de datos a nivel nacional sobre abandono en los años 2016.  
+Realizar tres preguntas de interes que surjan como parte del analisis exploratorio de datos.
+
+```{r, message=FALSE}
+datos <- read_csv('muestra.csv')
+```
+Para mi tres preguntas importantes son:
+* ¿Cual es el sexo que abandona mas? (Tomando en cuenta que ABandono=0 No, Abandono=1 Si,)
++ ¿En que departamento hay mayor abandono general?
++ ¿En que Departamentos el Contexto sociocultural de los liceos es mas bajo?
+
+### Pregunta 1:
+
+```{r, fig.cap="Grafico de barras que muestra que sexo es mas propenso al abandono de clase"}
+sexoab<- datos %>% select(Sexo, Abandono) 
+sexoab<- sexoab %>% group_by(Sexo) %>% summarise(Abandono=sum(Abandono))
+
+
+ggplot(sexoab, aes(Sexo, Abandono, fill=Sexo))+geom_bar(stat='identity', width=0.5)+
+  geom_text(label=sexoab$Abandono, vjust=-.5, color='DarkGreen')+ 
+  theme(aspect.ratio = 2/1)+scale_fill_brewer(palette = "Dark2")+ 
+  labs(x="Sexo", y="Cantidad de alumnos que abandonaron",
+       title="Comparacion de abandono entre sexos")
+```
+    
+  \ 
+  Podemos ver que es mas propenso a abandonar el sexo masculino que el fenemnino
+  \pagebreak
+  
+  ### Pregunta 2:
+```{r, echo=TRUE, fig.cap="Indice de abandono escolar por cada departamento"}
+dep<- datos %>% select(nombre_departamento, Abandono) 
+
+NoAbandono <- dep %>% group_by(nombre_departamento)%>% count(a=Abandono==0) %>%filter(a==TRUE) %>% select(nombre_departamento, NoAbandono=n)
+
+dep<- dep %>% group_by(nombre_departamento) %>% summarise(Abandono=sum(Abandono))%>% mutate(NoAbandono) 
+
+dep2<- dep %>% summarise('indice'=Abandono/(Abandono+NoAbandono)) 
+
+dep<- dep %>% select(nombre_departamento) %>% mutate(dep2)
+
+
+
+ggplot(dep, aes(x=reorder(nombre_departamento,-indice), indice, fill=indice))+geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.25))+
+  labs(x="", y="Porcentaje de abandono", title= 'Indice de Abandono escolar por departamento')
+```
+  
+  \ 
+  Podemos ver que el departamento con mayor indice de abandono escolar es San Jose, y el que menor indice tiene es Flores.
+  
+  \pagebreak
+  
+  
+
+```{r, echo=TRUE, fig.cap="Promedio de contexto social"}
+contx<- datos %>% select(cl, nombre_departamento)%>% group_by(nombre_departamento) %>%
+  summarise(Promedio =mean(cl))
+
+ggplot(contx, aes(x=reorder(nombre_departamento, Promedio),y=Promedio, fill=Promedio))+geom_bar(stat='identity')+
+  theme(axis.text.x = element_text(angle=90, hjust=1, vjust=0.25))+
+  labs(x="", y="Contexto promedio de los liceos", 
+       title= 'Contexto sociocultural promedio')
+```
+  Podemos ver comparando este grafico y el anterior, que las zonas con mejor contexto tienen un menor indice de abandono.
 
 
 
