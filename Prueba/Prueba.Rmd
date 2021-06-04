@@ -1,6 +1,6 @@
 ---
-title: "Prueba"
-author: "Luis Gagñevin"
+title: "Revision 2021"
+author: "Luis Gagñevin 5.153.261-6"
 date: "6/4/2021"
 output: pdf_document
 fig_caption: TRUE
@@ -32,7 +32,7 @@ datos<-read_csv('Datos/muestra.csv')
 
 ### 2. 
 
-```{r, results='asis'}
+```{r, results='asis', message=FALSE}
 tabla <- datos %>% mutate(Abandono= recode(Abandono, '0'='No', '1'='Si')) %>% 
   group_by(Abandono) %>% summarise(n=n()) %>% rename(Cantidad=n)
 print(xtable(tabla))
@@ -45,10 +45,12 @@ Mont<- datos %>% filter(nombre_departamento=='Montevideo') %>% group_by(Abandono
   summarise(n=n()) %>% mutate(Perc = n/sum(n), Abandono=recode(Abandono, '0'='No', '1'='Si'))
 ```
 El % de Abandono en montevideo es de: `r Mont[2,3]*100` %
+  
+\pagebreak 
 
 ### 4.
 
-```{r, echo=TRUE, fig.cap='Porcentaje de Abandono escolar en Uruguay'}
+```{r, echo=TRUE, fig.cap='Porcentaje de Abandono escolar en Uruguay', message=FALSE, warning=FALSE}
 Tabandono<- datos %>% group_by(nombre_departamento, Abandono)%>% 
   summarise(n=n()) %>% mutate(Perc = n/sum(n), Abandono=recode(Abandono, '0'='No', '1'='Si')) 
 
@@ -65,7 +67,7 @@ ggplot(Tabandono, aes(x=Perc*100, y=reorder(nombre_departamento,Perc)))+geom_poi
 
 ### 5.
 
-```{r, echo=TRUE, fig.cap='Proporcion de abandono segun Sexo y Departamento'}
+```{r, echo=TRUE, fig.cap='Proporcion de abandono segun Sexo y Departamento', message=FALSE, warning=FALSE}
 Aban<-datos %>% filter(Abandono==1) %>% group_by(nombre_departamento, Sexo) %>% summarise(n=n()) %>% 
   mutate(Proporcion = n/sum(n))%>% select(nombre_departamento, Sexo, Proporcion)
 
@@ -79,16 +81,16 @@ ggplot(Aban, aes(x=Proporcion, y=fct_reorder2(nombre_departamento, -(Sexo=="F"),
   
 ### 6. 
 
-```{r,echo=TRUE, fig.cap="Relacion Abandono segun contexto sociocultural del centro"}
-Aban <- datos %>% group_by(nombre_departamento, Abandono, cl) %>%summarise(n=n()) %>% 
+```{r,echo=TRUE, fig.cap="Relacion Abandono segun contexto sociocultural del centro", message=FALSE, warning=FALSE}
+Aban <- datos %>% group_by(nombre_departamento, Abandono, cl) %>% summarise(n=n()) %>% 
   mutate(Proporcion=n/sum(n),Abandono=recode(Abandono, '0'='No', '1'='Si'))
 
 ggplot(Aban, aes(x=cl, y=Proporcion,color=Abandono))+geom_point()+
   geom_line()+facet_wrap(~Aban$nombre_departamento)+
-  scale_color_brewer(palette='Dark2')+
-  labs(x="Cluster", y="Proporción")+
+  scale_color_brewer(palette='Dark2')+labs(x="Cluster", y="Proporción")+
   theme(legend.position = "bottom")
 ```
+
   
 \ 
 \pagebreak
@@ -109,12 +111,69 @@ datos %>% mutate(grupo_desc =
 datos %>% separate(`Fecha nacimiento`, sep='-', into=c("Dia", "Mes", "Año")) %>% select(Dia, Mes, Año) %>% head(6)
 ```
 
+### 9.
+```{r}
+datos<-datos %>% mutate(`Fecha nacimiento`=as.Date(`Fecha nacimiento`))
+class(datos$`Fecha nacimiento`)
+```
+
+
+
+\pagebreak 
+  
   
 # Ejercicio 2.
 
+### 1.
 
+Es siempre preferible un grafico de barras ya que con este podemos ver una mayor cantidad de datos y no solamente como conforman la totalidad estos mismos.   
+Siendo mejor para una visualizacion el primero.  
 
+### 2.
 
+Es importante para mantener una proporcion entre el ancho y alto de los ejes
 
+### 3.
 
+```{r}
+compra = function(cprod,cdisp){
 
+  if (is.numeric(cprod)==FALSE | is.numeric(cdisp)==FALSE) {
+  c="Argumento No numerico"
+    
+  }else{
+    
+      c=1
+  for (i in cprod) {
+    if(cdisp[i]-cprod[i]>=0){
+      c=c*1
+      
+    }else{
+      c=c*0
+    } }  }
+  
+  print(c)
+}
+```
+
+Testeos:
+
+```{r}
+cprod<-c(1,2,3)
+cdisp<-c(1,2,3)
+compra(cprod,cdisp)
+```
+Como Vemos, nos da 1, por lo que la compra se podra hacer
+
+```{r}
+cprod<-c(1,3,3)
+cdisp<-c(1,2,3)
+compra(cprod,cdisp)
+```
+Como Vemos, nos da 0, por lo que la compra no se podra hacer
+
+```{r, message=FALSE}
+cprod<-c(1,3,3)
+cdisp<-'a'
+compra(cprod,cdisp)
+```
