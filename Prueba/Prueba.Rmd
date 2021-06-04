@@ -1,0 +1,120 @@
+---
+title: "Prueba"
+author: "Luis Gagñevin"
+date: "6/4/2021"
+output: pdf_document
+fig_caption: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Librerias que utilizaremos:
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+library(readr)
+library(here)
+library(tidyverse)
+library(xtable)
+library(ggplot2)
+```
+
+\pagebreak
+
+# Ejercicio 1:
+
+
+### 1. Llamamos los datos utilizando a read_csv
+```{r, warning=FALSE, message=FALSE,echo=TRUE}
+datos<-read_csv('Datos/muestra.csv')
+```
+
+### 2. 
+
+```{r, results='asis'}
+tabla <- datos %>% mutate(Abandono= recode(Abandono, '0'='No', '1'='Si')) %>% 
+  group_by(Abandono) %>% summarise(n=n()) %>% rename(Cantidad=n)
+print(xtable(tabla))
+```
+
+### 3.
+
+```{r}
+Mont<- datos %>% filter(nombre_departamento=='Montevideo') %>% group_by(Abandono)%>% 
+  summarise(n=n()) %>% mutate(Perc = n/sum(n), Abandono=recode(Abandono, '0'='No', '1'='Si'))
+```
+El % de Abandono en montevideo es de: `r Mont[2,3]*100` %
+
+### 4.
+
+```{r, echo=TRUE, fig.cap='Porcentaje de Abandono escolar en Uruguay'}
+Tabandono<- datos %>% group_by(nombre_departamento, Abandono)%>% 
+  summarise(n=n()) %>% mutate(Perc = n/sum(n), Abandono=recode(Abandono, '0'='No', '1'='Si')) 
+
+Tabandono<-Tabandono %>%filter(Abandono=='Si')%>%select(nombre_departamento, Perc)
+
+ggplot(Tabandono, aes(x=Perc*100, y=reorder(nombre_departamento,Perc)))+geom_point()+
+  labs(x='Porcentaje de Abandono', y='Departamentos')
+```
+
+  
+\  
+\pagebreak
+  
+
+### 5.
+
+```{r, echo=TRUE, fig.cap='Proporcion de abandono segun Sexo y Departamento'}
+Aban<-datos %>% filter(Abandono==1) %>% group_by(nombre_departamento, Sexo) %>% summarise(n=n()) %>% 
+  mutate(Proporcion = n/sum(n))%>% select(nombre_departamento, Sexo, Proporcion)
+
+ggplot(Aban, aes(x=Proporcion, y=fct_reorder2(nombre_departamento, -(Sexo=="F"),Proporcion), fill=Sexo))+
+  geom_bar(stat = 'identity')+scale_fill_brewer(palette = 'Dark2')+theme(legend.position = 'null')+
+    labs(x='Proporción', y='Departamento')
+```
+  
+  \ 
+  \pagebreak
+  
+### 6. 
+
+```{r,echo=TRUE, fig.cap="Relacion Abandono segun contexto sociocultural del centro"}
+Aban <- datos %>% group_by(nombre_departamento, Abandono, cl) %>%summarise(n=n()) %>% 
+  mutate(Proporcion=n/sum(n),Abandono=recode(Abandono, '0'='No', '1'='Si'))
+
+ggplot(Aban, aes(x=cl, y=Proporcion,color=Abandono))+geom_point()+
+  geom_line()+facet_wrap(~Aban$nombre_departamento)+
+  scale_color_brewer(palette='Dark2')+
+  labs(x="Cluster", y="Proporción")+
+  theme(legend.position = "bottom")
+```
+  
+\ 
+\pagebreak
+  
+### 7. 
+```{r,echo=TRUE}
+datos %>% mutate(grupo_desc = 
+                   recode(grupo_desc,'1ro. G. 1'='A', '1ro. G. 2'="A",'1ro. G. 3'="A",'1ro. G. 4'="A",'1ro. G. 5'="A",
+                  '1ro. G. 6'='B','1ro. G. 7'='B','1ro. G. 8'='B','1ro. G. 9'='B','1ro. G. 10'='B','1ro. G. 11'='B',
+                  '1ro. G. 12'='C','1ro. G. 13'='C','1ro. G. 14'='C','1ro. G. 15'='C','1ro. G. 16'='C','1ro. G. 17'='C')) %>%
+                  select(grupo_desc) %>% head(6)
+```
+
+  
+### 8.
+
+```{r, echo=TRUE}
+datos %>% separate(`Fecha nacimiento`, sep='-', into=c("Dia", "Mes", "Año")) %>% select(Dia, Mes, Año) %>% head(6)
+```
+
+  
+# Ejercicio 2.
+
+
+
+
+
+
+
