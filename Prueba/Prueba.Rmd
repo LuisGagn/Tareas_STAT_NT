@@ -30,6 +30,8 @@ library(ggplot2)
 datos<-read_csv('Datos/muestra.csv')
 ```
 
+\fbox{\textbf{\textcolor{violet}{Aunque lees bien los datos se pedía usar here (4 Puntos)}}}
+
 ### 2. 
 
 ```{r, results='asis', message=FALSE}
@@ -38,6 +40,8 @@ tabla <- datos %>% mutate(Abandono= recode(Abandono, '0'='No', '1'='Si')) %>%
 print(xtable(tabla))
 ```
 
+\fbox{\textbf{\textcolor{violet}{(10 Puntos)}}}
+
 ### 3.
 
 ```{r}
@@ -45,7 +49,9 @@ Mont<- datos %>% filter(nombre_departamento=='Montevideo') %>% group_by(Abandono
   summarise(n=n()) %>% mutate(Perc = n/sum(n), Abandono=recode(Abandono, '0'='No', '1'='Si'))
 ```
 El % de Abandono en montevideo es de: `r Mont[2,3]*100` %
-  
+
+\fbox{\textbf{\textcolor{violet}{Deberías redondear el resultado usando round() (10 Puntos)}}}
+
 \pagebreak 
 
 ### 4.
@@ -60,7 +66,7 @@ ggplot(Tabandono, aes(x=Perc*100, y=reorder(nombre_departamento,Perc)))+geom_poi
   labs(x='Porcentaje de Abandono', y='Departamentos')
 ```
 
-  
+\fbox{\textbf{\textcolor{violet}{Falta Incluir un comentario interesante del gráfico (8 Puntos)}}}  
 \  
 \pagebreak
   
@@ -75,7 +81,7 @@ ggplot(Aban, aes(x=Proporcion, y=fct_reorder2(nombre_departamento, -(Sexo=="F"),
   geom_bar(stat = 'identity')+scale_fill_brewer(palette = 'Dark2')+theme(legend.position = 'null')+
     labs(x='Proporción', y='Departamento')
 ```
-  
+\textbf{\textcolor{violet}{Está ordenado aunque de forma diferente, falta incluir un título al gráfico (Gráfico de barras apiladasal 100%.... ver sol) y un comentario interesante (7 Puntos)}}  
   \ 
   \pagebreak
   
@@ -91,7 +97,7 @@ ggplot(Aban, aes(x=cl, y=Proporcion,color=Abandono))+geom_point()+
   theme(legend.position = "bottom")
 ```
 
-  
+\textbf{\textcolor{violet}{Título incompleto  y falta incluir un comentario interesante (13 Puntos)}}    
 \ 
 \pagebreak
   
@@ -104,19 +110,21 @@ datos %>% mutate(grupo_desc =
                   select(grupo_desc) %>% head(6)
 ```
 
+\fbox{\textbf{\textcolor{violet}{(5 Puntos)}} } 
   
 ### 8.
 
 ```{r, echo=TRUE}
 datos %>% separate(`Fecha nacimiento`, sep='-', into=c("Dia", "Mes", "Año")) %>% select(Dia, Mes, Año) %>% head(6)
 ```
+\fbox{\textbf{\textcolor{violet}{(5 Puntos)}} } 
 
 ### 9.
 ```{r}
 datos<-datos %>% mutate(`Fecha nacimiento`=as.Date(`Fecha nacimiento`))
 class(datos$`Fecha nacimiento`)
 ```
-
+\fbox{\textbf{\textcolor{violet}{(5 Puntos)}} } 
 
 
 \pagebreak 
@@ -129,10 +137,13 @@ class(datos$`Fecha nacimiento`)
 Es siempre preferible un grafico de barras ya que con este podemos ver una mayor cantidad de datos y no solamente como conforman la totalidad estos mismos.   
 Siendo mejor para una visualizacion el primero.  
 
+\fbox{\textbf{\textcolor{violet}{Ver sol}} } 
+
 ### 2.
 
 Es importante para mantener una proporcion entre el ancho y alto de los ejes
 
+\fbox{\textbf{\textcolor{violet}{Para no distorcionar la relación(3 Puntos)}} } 
 ### 3.
 
 ```{r}
@@ -176,4 +187,10 @@ Como Vemos, nos da 0, por lo que la compra no se podra hacer
 cprod<-c(1,3,3)
 cdisp<-'a'
 compra(cprod,cdisp)
+
+
 ```
+\fbox{\textbf{\textcolor{violet}{(15 Puntos)}} } 
+
+
+\textbf{\textcolor{violet}{Reproducible, repositorio ordenado. Como comentario de código, te generaste muchos objetos intermedios que se podrían haber evitato para mostrar el resultado usando la pipa (14 Puntos).TOTAL DE PUNTOS 99/130}} 
