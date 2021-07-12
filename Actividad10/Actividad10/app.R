@@ -67,3 +67,6 @@ server <- function(input,output){
    }
 
 shinyApp(ui, server)
+
+# Puntaje 10/10
+# No son necesarios los print(grafico()) basta con llamar a grafico()
